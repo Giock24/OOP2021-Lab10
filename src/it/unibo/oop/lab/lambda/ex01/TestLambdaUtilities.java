@@ -27,11 +27,11 @@ public final class TestLambdaUtilities {
     public void testDup() {
         assertEquals(
             List.of(1, 101, 2, 102, 3, 103, 4, 104, 5, 105),
-            LambdaUtilities.dup(List.of(1, 2, 3, 4, 5), x -> x + 100) 
+            LambdaUtilities.dup(List.of(1, 2, 3, 4, 5), x -> x + 100) // Assert True Crea List: [1, 101, 2, 102, 3, 103, 4, 104, 5, 105]
         );
         assertEquals(
             List.of("a", "aa", "b", "bb", "c", "cc"),
-            LambdaUtilities.dup(List.of("a", "b", "c"), x -> x + x)
+            LambdaUtilities.dup(List.of("a", "b", "c"), x -> x + x) // Assert True
         );
     }
 
@@ -41,11 +41,11 @@ public final class TestLambdaUtilities {
     @Test
     public void testOptFilter() {
         assertEquals(
-            List.of(Optional.empty(), Optional.of(2), Optional.empty(), Optional.of(4), Optional.empty(), Optional.of(6)),
+            List.of(Optional.empty(), Optional.of(2), Optional.empty(), Optional.of(4), Optional.empty(), Optional.of(6)), // List: [2, 4, 6]
             LambdaUtilities.optFilter(List.of(1, 2, 3, 4, 5, 6), x -> x % 2 == 0)
         );
         assertEquals(
-            List.of(Optional.empty(), Optional.of("bcd"), Optional.of("qw"), Optional.empty(), Optional.empty()),
+            List.of(Optional.empty(), Optional.of("bcd"), Optional.of("qw"), Optional.empty(), Optional.empty()), // List: [bcd, qw]
             LambdaUtilities.optFilter(List.of("a", "bcd", "qw", "e", ""), x -> x.length() > 1)
         );
     }
@@ -57,7 +57,7 @@ public final class TestLambdaUtilities {
     public void testGroup() {
         assertEquals(
             Map.of(
-                "even", Set.of(2, 4),
+                "even", Set.of(2, 4),  // Map<K><V>: "even" = (2, 4); "odd" = (1, 3, 5) 
                 "odd", Set.of(1, 3, 5)
             ),
             LambdaUtilities.group(List.of(1, 2, 3, 4, 5), x -> x % 2 == 0 ? "even" : "odd")

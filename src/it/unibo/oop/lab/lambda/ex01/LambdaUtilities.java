@@ -1,5 +1,6 @@
 package it.unibo.oop.lab.lambda.ex01;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ import java.util.stream.IntStream;
  *
  */
 public final class LambdaUtilities {
+
+
 
     private LambdaUtilities() {
     }
@@ -61,7 +64,11 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Optional.filter
          */
-        return null;
+        final List<Optional<T>> myList = new ArrayList<>();
+        list.forEach(t -> {
+            myList.add(Optional.of(t).filter(pre));
+        });
+        return myList;
     }
 
     /**

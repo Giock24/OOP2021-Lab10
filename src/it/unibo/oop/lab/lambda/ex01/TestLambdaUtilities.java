@@ -58,10 +58,11 @@ public final class TestLambdaUtilities {
         assertEquals(
             Map.of(
                 "even", Set.of(2, 4),  // Map<K><V>: "even" = (2, 4); "odd" = (1, 3, 5) 
-                "odd", Set.of(1, 3, 5)
+                "odd", Set.of(1, 3, 5) // K = <String>, V = <Set>
             ),
             LambdaUtilities.group(List.of(1, 2, 3, 4, 5), x -> x % 2 == 0 ? "even" : "odd")
         );
+
         assertEquals(
             Map.of(
                 3, Set.of("abc", "qwe"),
@@ -70,6 +71,7 @@ public final class TestLambdaUtilities {
             ),
             LambdaUtilities.group(List.of("abc", "qwe", "zx", "o", "cv"), x -> x.length())
         );
+
     }
 
     /**

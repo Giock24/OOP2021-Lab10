@@ -3,10 +3,12 @@ package it.unibo.oop.lab.lambda.ex01;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -25,7 +27,23 @@ import java.util.stream.IntStream;
  */
 public final class LambdaUtilities {
 
-
+     /**
+     *
+     * @param <X>
+     * @param list
+     * @param filter
+     * @return
+     *      this method return a new Set.
+     */
+	public static <X> Set<X> myFilter(final List<X> list, final Predicate<X> filter) {
+        final Set<X> newSet = new HashSet<>();
+        for (final var numbers : list) {
+            if (filter.test(numbers)) {
+                newSet.add(numbers);
+            }
+        }
+        return newSet;
+    }
 
     private LambdaUtilities() {
     }
@@ -87,7 +105,21 @@ public final class LambdaUtilities {
         /*
          * Suggestion: consider Map.merge
          */
-        return null;
+    	//final Set<T> setO = new HashSet<>();
+    	final Map<R, Set<T>> myMap = new HashMap<>();
+
+    	list.forEach(t -> {
+    		if (!myMap.containsKey(op.apply(t))) {
+    			final Set<T> set = new HashSet<>();
+    			myMap.merge(op.apply(t), set, (key, value) -> value);
+    			myMap.get(op.apply(t)).add(t);
+    		} else {
+    			myMap.get(op.apply(t)).add(t);
+    		}	
+
+    		System.out.println(myMap);
+    		});
+        return myMap;
     }
 
     /**

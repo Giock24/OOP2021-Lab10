@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -96,9 +95,9 @@ public final class LambdaUtilities {
                 myMap.get(op.apply(t)).add(t);
            } else {
                 myMap.get(op.apply(t)).add(t);
-           }	
+           }
             //System.out.println(myMap);
-    		});
+        });
         return myMap;
     }
 
@@ -120,7 +119,15 @@ public final class LambdaUtilities {
          * 
          * Keep in mind that a map can be iterated through its forEach method
          */
-        return null;
+        final Map<K, V> myMap2 = new HashMap<>();
+
+        map.forEach((t, u) -> {
+            if (!myMap2.containsKey(t)) {
+                myMap2.put(t, u.orElse(def.get()));
+            }
+        });
+
+        return myMap2;
     }
 
     /**

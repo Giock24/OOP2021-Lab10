@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
  * Modify this small program adding new filters.
  * Realize this exercise using as much as possible the Stream library.
  * 
- * 1) Convert to lowercase
+ * 1) Convert to lowercase (minuscolo)
  * 
  * 2) Count the number of chars
  * 
@@ -34,8 +34,15 @@ public final class LambdaFilter extends JFrame {
 
     private static final long serialVersionUID = 1760990730218643730L;
 
+    private static final int NEW_LINE = 10;
+
     private enum Command {
-        IDENTITY("No modifications", Function.identity());
+        IDENTITY("No modifications", Function.identity()),
+        LOWERCASE("All in Lowercase", String::toLowerCase),
+        COUNT_CHARS("Count all chars", (s) -> Integer.toString(s.trim().length())),
+        COUNT_NUM_LINES("Count number of lines", (s) -> Double.toString(s.chars().filter(a -> a == NEW_LINE).count())),
+        ALPHA_ORDER("List words in alpha order", (s) -> s.replaceAll(null, null)),
+        COUNT_EACH_WORD("Write the count for each word", Function.identity());
 
         private final String commandName;
         private final Function<String, String> fun;
@@ -61,9 +68,15 @@ public final class LambdaFilter extends JFrame {
         final JPanel panel1 = new JPanel();
         final LayoutManager layout = new BorderLayout();
         panel1.setLayout(layout);
+
+        /* component panel1 */
         final JComboBox<Command> combo = new JComboBox<>(Command.values());
         panel1.add(combo, BorderLayout.NORTH);
+
+        /* new panel where put textAreas */
         final JPanel centralPanel = new JPanel(new GridLayout(1, 2));
+
+        /* component centralPanel */
         final JTextArea left = new JTextArea();
         left.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         final JTextArea right = new JTextArea();
@@ -71,11 +84,20 @@ public final class LambdaFilter extends JFrame {
         right.setEditable(false);
         centralPanel.add(left);
         centralPanel.add(right);
+
+        /* component panel1 */
         panel1.add(centralPanel, BorderLayout.CENTER);
         final JButton apply = new JButton("Apply");
-        apply.addActionListener(ev -> right.setText(((Command) combo.getSelectedItem()).translate(left.getText())));
+        apply.addActionListener(ev -> {
+            right.setText(((Command) combo.getSelectedItem()).translate(left.getText()));
+        });
         panel1.add(apply, BorderLayout.SOUTH);
         setContentPane(panel1);
+
+        /* Handlers */
+
+
+        /* View */
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();

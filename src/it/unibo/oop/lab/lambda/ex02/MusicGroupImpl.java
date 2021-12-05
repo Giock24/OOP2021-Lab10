@@ -37,7 +37,8 @@ public final class MusicGroupImpl implements MusicGroup {
     		mySong.add(t.getSongName());
     	});
     	//System.out.println(mySong);
-        return mySong.stream().sorted();
+    	return this.songs.stream().map(Song::getSongName).sorted();
+        //return mySong.stream().sorted();
     }
 
     @Override
@@ -46,7 +47,7 @@ public final class MusicGroupImpl implements MusicGroup {
     	this.albums.forEach((k, v) -> {
     		myAlbum.add(k);
     	});
-        return myAlbum.stream();
+        return this.albums.entrySet().stream().map(entry -> entry.getKey());
     }
 
     @Override
@@ -57,7 +58,10 @@ public final class MusicGroupImpl implements MusicGroup {
     			albumYear.add(k);
     		}
     	});
-        return albumYear.stream();
+        //return albumYear.stream();
+    	return this.albums.entrySet().stream()
+    			.filter(entry -> entry.getValue() == year)
+    			.map(entry -> entry.getKey());
     }
 
     @Override
@@ -69,7 +73,12 @@ public final class MusicGroupImpl implements MusicGroup {
     		}
     	});
     	//System.out.println(counterSong);
-        return (int) counterSong.stream().count();
+        //return (int) counterSong.stream().count();
+    	//System.out.println((int) this.songs.stream().filter(album -> album.getAlbumName().isPresent()).filter(album -> album.getAlbumName().get().equals(albumName)).count());
+    	return (int) this.songs.stream()
+    			.filter(album -> album.getAlbumName().isPresent())
+    			.filter(album -> album.getAlbumName().get().equals(albumName))
+    			.count();
     }
 
     @Override
@@ -80,7 +89,10 @@ public final class MusicGroupImpl implements MusicGroup {
     			countSongNoAlbum.add(t.getSongName());
     		}
     	});
-        return (int) countSongNoAlbum.stream().count();
+        //return (int) countSongNoAlbum.stream().count();
+    	return (int) this.songs.stream()
+    			.filter(album -> album.getAlbumName().isEmpty())
+    			.count();
     }
 
     @Override
@@ -91,7 +103,12 @@ public final class MusicGroupImpl implements MusicGroup {
     			averageDurSong.add(t.duration);
     		}
     	});
-        return OptionalDouble.of(averageDurSong.stream().collect(Collectors.averagingDouble(x -> x)));
+        //return OptionalDouble.of(averageDurSong.stream().collect(Collectors.averagingDouble(x -> x)));
+    	return OptionalDouble.of(this.songs.stream()
+    			.filter(album -> album.getAlbumName().isPresent())
+    			.filter(album -> album.getAlbumName().get().equals(albumName))
+    			.map(song -> song.getDuration())
+    			.collect(Collectors.averagingDouble(x -> x)));
     }
 
     @Override

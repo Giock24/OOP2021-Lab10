@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -41,7 +42,7 @@ public final class LambdaFilter extends JFrame {
         LOWERCASE("All in Lowercase", String::toLowerCase),
         COUNT_CHARS("Count all chars", (s) -> Integer.toString(s.trim().length())),
         COUNT_NUM_LINES("Count number of lines", (s) -> Double.toString(s.chars().filter(a -> a == NEW_LINE).count())),
-        ALPHA_ORDER("List words in alpha order", (s) -> s.replaceAll(null, null)),
+        ALPHA_ORDER("List words in alpha order", (s) -> s.lines().collect(Collectors.toList()).sort((s1 , s2) -> s1 - s2)),
         COUNT_EACH_WORD("Write the count for each word", Function.identity());
 
         private final String commandName;
